@@ -3,7 +3,7 @@ from datasets import Dataset
 import torch
 import numpy as np
 
-model_dir = './model'
+model_dir = './checkpoint-24624'
 tokenizer = AutoTokenizer.from_pretrained(model_dir)
 model = AutoModelForMultipleChoice.from_pretrained(model_dir)
 
