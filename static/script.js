@@ -1,20 +1,24 @@
-document.getElementById("submit").addEventListener("click", async () => {
-    const answers = document.getElementById("answers").value.split(",");
-    const topN = document.getElementById("top-n").value;
+function submitAnswers() {
+    const form = document.getElementById('qa-form');
+    const formData = new FormData(form);
 
-    const response = await fetch("/predict", {
-        method: "POST",
+    const answers = {};
+    for (let [key, value] of formData.entries()) {
+        answers[key] = value;
+    }
+
+    fetch('/submit', {
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ answers, top_n: topN })
-    });
-
-    const predictions = await response.json();
-    const resultsDiv = document.getElementById("results");
-
-    resultsDiv.innerHTML = "<h3>Predicted Answers:</h3>";
-    Object.entries(predictions).forEach(([key, value]) => {
-        resultsDiv.innerHTML += `<p>${key}: ${value}</p>`;
-    });
-});
+        body: JSON.stringify({ answers }),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<p>Correct: ${data.correct.join(', ')}</p>
+                                   <p>Wrong: ${data.wrong.join(', ')}</p>`;
+        })
+        .catch((error) => console.error('Error:', error));
+}

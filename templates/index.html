@@ -3,31 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style.css">
     <title>Multiple QA System</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h1>Welcome to Multiple QA System</h1>
-    <div id="questions">
-        <div class="question">
-            <p>Question 1</p>
-            <p>A. xxx</p>
-            <p>B. xxx</p>
-            <p>C. xxx</p>
-            <p>D. xxx</p>
-            <p>E. xxx</p>
-            <p>Answer: A, B, C</p>
+    <div class="header">
+        <h1>Welcome to Multiple QA System</h1>
+    </div>
+    <form id="qa-form">
+        {% for question in questions %}
+        <div class="question-box">
+            <p><strong>{{ question['prompt'] }}</strong></p>
+            <label><input type="radio" name="{{ loop.index }}" value="A"> A. {{ question['A'] }}</label><br>
+            <label><input type="radio" name="{{ loop.index }}" value="B"> B. {{ question['B'] }}</label><br>
+            <label><input type="radio" name="{{ loop.index }}" value="C"> C. {{ question['C'] }}</label><br>
+            <label><input type="radio" name="{{ loop.index }}" value="D"> D. {{ question['D'] }}</label><br>
         </div>
-    </div>
-    
-    <div id="input-section">
-        <textarea id="answers" placeholder="Input your answers (e.g., A, B, C)"></textarea>
-        <input id="top-n" type="number" min="1" placeholder="Top N answers" />
-        <button id="submit">Submit</button>
-    </div>
-    
-    <div id="results"></div>
-
+        {% endfor %}
+        <button type="button" onclick="submitAnswers()">Submit</button>
+    </form>
+    <div id="result"></div>
     <script src="/static/script.js"></script>
 </body>
 </html>
