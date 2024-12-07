@@ -20,7 +20,7 @@ def preprocess(example, max_choices=5):
     tokenized['label'] = option_to_index.get(example.get('answer', 'A'), 0)
     return tokenized
 
-def predict(example):
+def get_predictions(example):
     tokenized_example = preprocess(example)
     inputs = {key: value.unsqueeze(0) for key, value in tokenized_example.items() if key in ['input_ids', 'attention_mask', 'token_type_ids']}
     answers = [example.get(option, "N/A") for option in options if option in example]
