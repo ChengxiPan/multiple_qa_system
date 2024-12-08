@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multiple QA System</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <div class="header">
         <h1>Welcome to Multiple QA System</h1>
     </div>
     <form id="qa-form">
-        {% for question in questions %}
-        <div class="question-box">
-            <p><strong>{{ question['prompt'] }}</strong></p>
-            <label><input type="radio" name="{{ loop.index }}" value="A"> A. {{ question['A'] }}</label><br>
-            <label><input type="radio" name="{{ loop.index }}" value="B"> B. {{ question['B'] }}</label><br>
-            <label><input type="radio" name="{{ loop.index }}" value="C"> C. {{ question['C'] }}</label><br>
-            <label><input type="radio" name="{{ loop.index }}" value="D"> D. {{ question['D'] }}</label><br>
+        <div class="question-container">
+            {% for question in questions %}
+            <div class="question-box">
+                <p><strong>{{ question['prompt'] }}</strong></p>
+                <label><input type="radio" name="q{{ loop.index }}" value="A"> A. {{ question['A'] }}</label><br>
+                <label><input type="radio" name="q{{ loop.index }}" value="B"> B. {{ question['B'] }}</label><br>
+                <label><input type="radio" name="q{{ loop.index }}" value="C"> C. {{ question['C'] }}</label><br>
+                <label><input type="radio" name="q{{ loop.index }}" value="D"> D. {{ question['D'] }}</label><br>
+            </div>  
+            {% endfor %}
         </div>
-        {% endfor %}
         <button type="button" onclick="submitAnswers()">Submit</button>
     </form>
     <div id="result"></div>

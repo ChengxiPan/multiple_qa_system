@@ -17,7 +17,7 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    user_answers = request.json.get('answers')
+    user_answers = request.json.get('answers') 
     correct_answers = {q['prompt']: q['answer'] for _, q in df.iterrows()}
     result = {
         'correct': [],
