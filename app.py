@@ -17,20 +17,24 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    user_answers = request.json.get('answers') 
-    correct_answers = {q['prompt']: q['answer'] for _, q in df.iterrows()}
+    user_answers = request.json.get('answers')  # 用户提交的答案
+    # 从 DataFrame 中提取正确答案 (假设 df 中有 'prompt' 和 'answer' 两列)
+    correct_answers = {f"q{index + 1}": q['answer'] for index, q in df.iterrows()}  # 构造 q1, q2 格式的键
+    
     result = {
         'correct': [],
-        'wrong': []
+        'wrong': [],
+        'answers': correct_answers  
     }
     
     for question, answer in user_answers.items():
         if answer == correct_answers.get(question):
-            result['correct'].append(question)
+            result['correct'].append(question)  # 答对的题目
         else:
-            result['wrong'].append(question)
+            result['wrong'].append(question)  # 答错的题目
     
-    return jsonify(result)
+    return jsonify(result)  # 返回包含正确答案的 JSON
+
 
 if __name__ == '__main__':
     app.run(debug=True)
