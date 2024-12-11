@@ -23,29 +23,31 @@ def preprocess(example, max_choices=5):
 def get_predictions(example):
     tokenized_example = preprocess(example)
     inputs = {key: value.unsqueeze(0) for key, value in tokenized_example.items() if key in ['input_ids', 'attention_mask', 'token_type_ids']}
-    answers = [example.get(option, "N/A") for option in options if option in example]
     
+    # Extract the options and their text
+    options = ['A', 'B', 'C', 'D']
+    answers = [(option, example.get(option, "N/A")) for option in options if option in example]
+    
+    # Get the model's predictions
     predictions = model(**inputs)
     filtered_logits = predictions.logits[:, :len(answers)]   # Only take the first len(answers) logits
-    predicted_answer_idx = torch.argmax(filtered_logits, dim=1).item()
-    predicted_answer = index_to_option[predicted_answer_idx]
-    return predicted_answer
+    
+    # Combine the option (A/B/C/D), text, and logits, then sort by logits
+    ranked_answers = sorted(
+        zip([ans[0] for ans in answers], [ans[1] for ans in answers], filtered_logits[0].tolist()), 
+        key=lambda x: x[2],  # Sort by logits
+        reverse=True
+    )
+    
+    # Return as [('A', 'Paris', score), ('C', 'Madrid', score), ...]
+    return ranked_answers
+
 
 if __name__ == '__main__':
     Question = "What is the capital of France?"
     A = "Paris"
     B = "Berlin"
     C = "Madrid"
-    example = {'prompt': Question, 'A': A, 'B': B, 'C': C}
+    example = {'prompt': Question, 'A': A, 'B': B, 'C': C, 'D': "Paris"}
 
-    tokenized_example = preprocess(example)
-    inputs = {key: value.unsqueeze(0) for key, value in tokenized_example.items() if key in ['input_ids', 'attention_mask', 'token_type_ids']}
-    answers = [example.get(option, "N/A") for option in options if option in example]
-    print("Answers:", answers)
-    predictions = model(**inputs)
-    filtered_logits = predictions.logits[:, :len(answers)]   # Only take the first len(answers) logits
-    print("Predicted Logits:", filtered_logits)
-
-    predicted_answer_idx = torch.argmax(filtered_logits, dim=1).item()
-    predicted_answer = index_to_option[predicted_answer_idx]
-    print("Predicted Answer:", predicted_answer)
+    print(get_predictions(example))
