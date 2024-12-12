@@ -19,9 +19,9 @@ def index():
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    user_answers = request.json.get('answers')  # 用户提交的答案
-    # 从 DataFrame 中提取正确答案 (假设 df 中有 'prompt' 和 'answer' 两列)
-    correct_answers = {f"q{index + 1}": q['answer'] for index, q in df.iterrows()}  # 构造 q1, q2 格式的键
+    user_answers = request.json.get('answers')  # The answer submitted by the user
+    # from DataFrame The correct answer to extract (Hypothesis df In the middle 'prompt' and 'answer' Two columns)
+    correct_answers = {f"q{index + 1}": q['answer'] for index, q in df.iterrows()}  # structure q1, q2 Format key
     
     result = {
         'correct': [],
@@ -31,19 +31,19 @@ def submit():
     
     for question, answer in user_answers.items():
         if answer == correct_answers.get(question):
-            result['correct'].append(question)  # 答对的题目
+            result['correct'].append(question)  # Answer questions
         else:
-            result['wrong'].append(question)  # 答错的题目
+            result['wrong'].append(question)  # The question that is wrong
     
-    return jsonify(result)  # 返回包含正确答案的 JSON
+    return jsonify(result)  # Return to the correct answer JSON
 
 @app.route('/submitQA', methods=['POST'])
 def submit_customized_qa():
     try:
-        # 从POST请求中获取JSON数据
+        # fromPOSTGet in requestJSONdata
         data = request.json
 
-        # 验证数据是否完整
+        # data
         question = data.get('question')
         answerA = data.get('answerA')
         answerB = data.get('answerB')
@@ -53,7 +53,7 @@ def submit_customized_qa():
         if not question or not all([answerA, answerB, answerC, answerD]):
             return jsonify({'error': 'Invalid input: Question and all answers are required.'}), 400
 
-        # 调用预测函数
+        # Call prediction function
         example = {
             'prompt': question,
             'A': answerA,
@@ -64,7 +64,7 @@ def submit_customized_qa():
 
         ranked_answers = get_predictions(example)
 
-        # 返回结果
+        # Return result
         return jsonify({'ranked_answers': ranked_answers})
 
     except Exception as e:

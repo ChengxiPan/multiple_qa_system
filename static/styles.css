@@ -141,32 +141,32 @@ font-weight: bold;
     border: 1px solid #ddd; 
     border-radius: 8px; 
     padding: 15px; 
-    background-color: #f9f9f9; /* 背景色 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
-    font-family: 'Arial', sans-serif; /* 字体 */
+    background-color: #f9f9f9; /* Background */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    font-family: 'Arial', sans-serif; /* Font */
 }
 
 .column h2 {
-    margin-top: 0; /* 去除标题顶部的默认间距 */
-    font-size: 1.5rem; /* 标题字体大小 */
-    color: #333; /* 标题颜色 */
-    border-bottom: 2px solid #007bff; /* 标题下划线 */
-    padding-bottom: 8px; /* 下划线与文字的间距 */
+    margin-top: 0; /* Remove the default spacing at the top of the title */
+    font-size: 1.5rem; /* Font */
+    color: #333; /* Title color */
+    border-bottom: 2px solid #007bff; /* Drawing under the title */
+    padding-bottom: 8px; /* The spacing of the lower line and the text */
 }
 
 .column p {
-    font-size: 1rem; /* 段落字体大小 */
-    color: #555; /* 段落文字颜色 */
-    line-height: 1.5; /* 行高 */
+    font-size: 1rem; /* 段落Font大小 */
+    color: #555; /* Paragraph text color */
+    line-height: 1.5; /* High */
 }
 
-/* 响应式支持 */
+/* Response support */
 @media (max-width: 768px) {
     .two-columns {
-        flex-direction: column; /* 在小屏幕上垂直排列 */
+        flex-direction: column; /* Arrange vertically on a small screen */
     }
 
     .column {
-        margin-bottom: 15px; /* 每个列之间增加间距 */
+        margin-bottom: 15px; /* Increase distance between each column */
     }
 }
