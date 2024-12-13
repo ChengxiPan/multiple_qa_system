@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple QA System</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to Multiple QA System</h1>
+    </div>
+    <form id="qa-form">
+        <div class="question-container">
+            {% for question in questions %}
+            <div class="question-box">
+                <p><strong>{{ question['prompt'] }}</strong></p>
+                <label><input type="radio" name="q{{ loop.index }}" value="A"> A. {{ question['A'] }}</label><br>
+                <label><input type="radio" name="q{{ loop.index }}" value="B"> B. {{ question['B'] }}</label><br>
+                <label><input type="radio" name="q{{ loop.index }}" value="C"> C. {{ question['C'] }}</label><br>
+                <label><input type="radio" name="q{{ loop.index }}" value="D"> D. {{ question['D'] }}</label><br>
+            </div>  
+            {% endfor %}
+        </div>
+        <button type="button" onclick="submitAnswers()">Submit</button>
+    </form>
+    <div id="result"></div>
+
+
+    <div class="header">
+        <h1>Test your own QA!</h1>
+    </div>
+    <div class="customizedQA">
+        <form id="customizedQA-form">
+            <!-- Question input field -->
+            <p><input type="text" id="customizedQ" name="question" placeholder="Input question" /></p>
+    
+            <!-- Answer input fields -->
+            <div class="answers">
+                <input type="text" id="answerA" name="answerA" placeholder="Input answer A" />
+                <input type="text" id="answerB" name="answerB" placeholder="Input answer B" />
+                <input type="text" id="answerC" name="answerC" placeholder="Input answer C" />
+                <input type="text" id="answerD" name="answerD" placeholder="Input answer D" />
+            </div>
+    
+            <!-- Numeric input field -->
+            <!--<p><input type="number" id="topN" name="topN" placeholder="Input topN" min="1" /></p>-->
+    
+            <!-- Submit button -->
+            <button type="button" onclick="submitCustomizedQA()">Submit</button>
+        </form>
+    </div>
+    
+    <div class="two-columns">
+        <div class="column">
+            <h2>README: MCQA System</h2>
+            <p><strong>System Introduction:</strong></p>
+            <p>The MCQA System is designed for multiple-choice question answering. It allows users to input a question and four answer options (A/B/C/D) and provides predictions based on the most likely answer according to the model.</p>
+            
+            <p><strong>Usage Instructions:</strong></p>
+            <ul>
+                <li>Enter the question and answers into the input fields provided.</li>
+                <li>Click the "Submit" button to process the input.</li>
+                <li>The prediction results will appear in the "customizedResult" section, and the ranked answers will be shown in the "rankingResult" section.</li>
+            </ul>
+
+            <p><strong>Example:</strong></p>
+            <ul>
+                <li>Who was president of the United States when Bill Clinton was born?</li>
+                <li>A. Herbert Hoover</li>
+                <li>B. Harry S. Truman</li>
+                <li>C. Franklin Roosevelt</li>
+                <li>D. Dwight Eisenhower</li>
+            </ul>
+            The correct answer is B.
+            
+            <p><strong>Disclaimer:</strong></p>
+            <p>This system is for research and reference purposes only. It does not guarantee the accuracy of the predictions and assumes no responsibility for decisions made based on the output.</p>
+        </div>
+        <div class="column">
+            <h2>Scores:</h2>
+            <div id="customizedResult"></div>
+            <div id="rankingResult"></div>
+        </div>
+    </div>
+    
+    
+    
+    <script src="/static/script.js"></script>
+    
+</body>
+</html>
